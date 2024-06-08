@@ -10,6 +10,7 @@ import { useContext } from "react";
 import { themeContext } from "./Context";
 import './App.css';
 import Login from "./components/Login/Login";
+import MainDash from "./components/Dash/maindash";
 
 function App() {
   const theme = useContext(themeContext);
@@ -25,7 +26,7 @@ function App() {
         }}
       >
         <Router>
-          <Navbar />
+          
           <Routes>
             {/* Define your routes here */}
             <Route path="/" element={<Intro />} />
@@ -33,9 +34,9 @@ function App() {
             <Route path="/works" element={<Works />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
-
+            <Route path="/dashboard" element={<MainDash/>}/>
           </Routes>
-          <Footer />
+          
         </Router>
       </div>
     </>

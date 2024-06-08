@@ -21,6 +21,8 @@ import intro from '../../img/intro.png';
 import intro1 from '../../img/intro1.png';
 import { BrowserRouter,Route,Routes } from "react-router-dom";
 import Dashboard from "./Dashboard";
+import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
 
 const Intro = () => {
   // Transition
@@ -31,6 +33,8 @@ const Intro = () => {
   const darkMode = theme.state.darkMode;
 
   return (
+   <div>
+    <Navbar/>
    
     <div className="Intro" id="Intro">
        
@@ -78,6 +82,8 @@ const Intro = () => {
           }}
         ></div>
       </div>
+    </div>
+    <Footer/>
     </div>
   );
 };

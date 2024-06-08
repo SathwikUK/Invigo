@@ -1,51 +1,65 @@
-import React from "react";
-import "./Login.css";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import './Login.css';
 
-const Login = ({ onClose }) => {
-  const handleClose = () => {
-    onClose(); // Call the onClose function passed from the parent component
-  };
+const Login = () => {
+    const [data, setData] = useState({
+        email: '',
+        password: ''
+    });
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
-  return (
-    <div className="overlay">
-      <div className="login-container">
-        <p className="title">Login</p>
-        <form className="form">
-          {/* Login form inputs */}
-          <div className="input-group">
-            <label htmlFor="username">Username</label>
-            <input type="text" name="username" id="username" placeholder="" />
-          </div>
-          <div className="input-group">
-            <label htmlFor="password">Password</label>
-            <input type="password" name="password" id="password" placeholder="" />
-            <div className="forgot">
-              <a rel="noopener noreferrer" href="#">
-                Forgot Password ?
-              </a>
-            </div>
-          </div>
-          <button className="sign">Sign in</button>
-        </form>
-        <div className="social-message">
-          <div className="line"></div>
-          <p className="message">Login with social accounts</p>
-          <div className="line"></div>
+    const changeHandler = (e) => {
+        setData({ ...data, [e.target.name]: e.target.value });
+    };
+
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await axios.post('http://localhost:5001/login', data);
+            localStorage.setItem('token',res.data.token)
+            // Assuming a successful login redirects to the dashboard or homepage
+            navigate('/dashboard')
+        } catch (err) {
+            console.error(err);
+            setError('Login failed. Please check your credentials and try again.');
+        }
+    };
+
+    return (
+        <div>
+            
+            <section className="container">
+                <h1 className='large text-primary'>Sign In</h1>
+                <p className='lead'><i className="fas fa-user"></i> Sign into Your Account</p>
+                <form className='form' onSubmit={submitHandler} autoComplete='off'>
+                    <div className='form-group'>
+                        <input
+                            type='email'
+                            placeholder='Email Address'
+                            name="email"
+                            onChange={changeHandler}
+                            required
+                        />
+                    </div>
+                    <div className='form-group'>
+                        <input
+                            type='password'
+                            placeholder="Password"
+                            name="password"
+                            onChange={changeHandler}
+                            required
+                        />
+                    </div>
+                    {error && <p className='error'>{error}</p>}
+                    <input type='submit' className='btn btn-primary' value="Login" />
+                </form>
+                <p>Don't have an account? <Link to="/register">Sign Up</Link></p>
+            </section>
         </div>
-        <div className="social-icons">
-          {/* Social login buttons */}
-        </div>
-        <p className="signup">
-          Don't have an account?
-          <a rel="noopener noreferrer" href="#" className="">
-            Sign up
-          </a>
-        </p>
-        {/* Cancel button to close the login overlay */}
-        <button className="cancel" onClick={handleClose}>Cancel</button>
-      </div>
-    </div>
-  );
-};
+    );
+}
 
 export default Login;
