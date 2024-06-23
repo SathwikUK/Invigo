@@ -9,8 +9,10 @@ import Footer from "./components/Footer/Footer";
 import { useContext } from "react";
 import { themeContext } from "./Context";
 import './App.css';
+import Register from './components/Register/register'
 import Login from "./components/Login/Login";
 import MainDash from "./components/Dash/maindash";
+import { RiRegisteredFill } from "react-icons/ri";
 
 function App() {
   const theme = useContext(themeContext);
@@ -34,7 +36,8 @@ function App() {
             <Route path="/works" element={<Works />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/dashboard" element={<MainDash/>}/>
+            <Route path="/register" element={<Register/>}/>
+            <Route path="/dashboard"  element={<MainDash/>}/>
           </Routes>
           
         </Router>

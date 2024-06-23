@@ -13,6 +13,8 @@ const Register = () => {
         confirmPassword: ''
     });
 
+    const [error, setError] = useState(null); // State for error messages
+
     const navigate = useNavigate(); // Hook for navigation
 
     const handleChange = e => {
@@ -43,16 +45,21 @@ const Register = () => {
                 console.error('Error:', response.statusText);
             }
         } catch (error) {
-            console.error('Error:', error);
+            if (error.response && error.response.status === 400 && error.response.data === 'User Already Registered') {
+                setError('This email is already registered. Please use a different email.');
+            } else {
+                console.error('Error:', error);
+                setError('An error occurred during registration. Please try again.');
+            }
         }
     };
 
     return (
         <div>
-            
             <section className="container">
                 <h1 className='large text-primary'>Sign Up</h1>
                 <p className='lead'><i className="fas fa-user-plus"></i> Create Your Account</p>
+                {error && <div className="alert alert-danger">{error}</div>} {/* Display error message */}
                 <form className='form' onSubmit={handleSubmit} autoComplete='off'>
                     <div className='form-group'>
                         <input
@@ -93,7 +100,6 @@ const Register = () => {
                             onChange={handleChange}
                             required
                         />
-                        
                     </div>
                     <div className='form-group'>
                         <input
